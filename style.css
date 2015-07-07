@@ -1,0 +1,16 @@
+/**************************************/
+/* style.css
+/* stylesheet for the Hs3 client management application
+/**************************************/
+
+
+#menu {
+	width: 20%;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#content {
+	width: 75%;
+	display: inline-block;
+}

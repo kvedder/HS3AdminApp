@@ -107,7 +107,7 @@ while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 		<td align="left"><a href="delete_user.php?id=' . $row['clientid'] . '">Delete</a></td>
 		<td align="left"><a href="open_ticket.php?id=' . $row['clientid'] . '">Open New Ticket</a></td>
 		<td align="left"><a href="view_tickets.php?id=' . $row['clientid'] . '">View Support History</a></td>
-		<td align="left">' . $row['client_name'] . '</td>
+		<td align="left"><a href="client_summary.php?id=' . $row['clientid'] . '">' . $row['client_name'] . '</a></td>
 		<td align="left">' . $row['client_city'] . '</td>
 		<td align="left">' . $row['client_state'] . '</td>
 	</tr>

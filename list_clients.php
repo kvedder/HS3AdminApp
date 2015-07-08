@@ -1,3 +1,11 @@
+
+<html>
+<head>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<?php include('menu.php'); ?>
+<div id="content">
 <?php 
 ##########################################################################
 ##																		##
@@ -82,11 +90,10 @@ $q = "SELECT clientid, client_name, client_city, client_state FROM clients ORDER
 $r = @mysqli_query ($dbc, $q); // Run the query.
 
 // Table header:
-echo '<div id="menu"><h1>Main Menu</h1><br>Dashboard<br><a href="list_tickets.php">Tickets</a><br><a href="list_clients.php">Clients</a><br>Options<br>Users<br>Logout</div>
+echo '
 
-<div id="content">
 <h1>Current Clients</h1>
-<table align="center" cellspacing="0" cellpadding="5" width="75%">
+<table align="left" cellspacing="0" cellpadding="5" width="75%">
 <tr>
 	<td align="left"><b>Edit</b></td>
 	<td align="left"><b>Delete</b></td>
@@ -150,11 +157,6 @@ if ($pages > 1) {
 
 ?>
 
-<html>
-<head>
-<link href="style.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
 </body>
 </html>
 

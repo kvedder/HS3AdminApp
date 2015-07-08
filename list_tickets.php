@@ -1,3 +1,10 @@
+<html>
+<head>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+
+
 <?php 
 ##########################################################################
 ##																		##
@@ -82,8 +89,8 @@ $q = "SELECT ticketid, ticket_title, ticket_message, assigned_to, ticket_status,
 $r = @mysqli_query ($dbc, $q); // Run the query.
 
 // Table header:
-echo '<div id="menu"><h1>Main Menu</h1><br>Dashboard<br><a href="list_tickets.php">Tickets</a><br><a href="list_clients.php">Clients</a><br>Options<br>Users<br>Logout</div>
-
+include('menu.php');
+echo '
 <div id="content">
 <h1>All Tickets</h1>
 <table align="center" cellspacing="0" cellpadding="5" style="table-layout: fixed; width: 75%">
@@ -159,11 +166,7 @@ if ($pages > 1) {
 
 ?>
 
-<html>
-<head>
-<link href="style.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
+
 </body>
 </html>
 

@@ -1,3 +1,10 @@
+<html>
+<head>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<?php include('menu.php'); ?>
+<div id="content">
 <?php 
 ##########################################################################
 ##																		##
@@ -91,9 +98,9 @@ $r = @mysqli_query ($dbc, $q); // Run the query.
 //Get client name
 
 // Table header:
-echo '<div id="menu"><h1>Main Menu</h1><br>Dashboard<br>Tickets<br>Clients<br>Options<br>Users<br>Logout</div>
 
-<div id="content">
+
+echo '
 <h1>Tickets Open for ' . $clientname . '</h1>
 <table align="center" cellspacing="0" cellpadding="5" width="75%">
 <tr>
@@ -151,11 +158,8 @@ if ($pages > 1) {
 
 ?>
 
-<html>
-<head>
-<link href="style.css" rel="stylesheet" type="text/css" />
-</head>
-<body>
+
+</div>
 </body>
 </html>
 

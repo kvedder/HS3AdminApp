@@ -1,0 +1,24 @@
+{
+    "name": "cleeng/cleeng-php-sdk",
+    "description": "PHP SDK for Cleeng API",
+    "license": "BSD-3-Clause",
+    "keywords": [
+        "cleeng",
+        "api",
+        "sdk"
+    ],
+    "require": {
+        "php": ">=5.2.0",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "3.7.*"
+    },
+    "homepage": "http://cleeng.com/",
+    "autoload": {
+        "psr-0": {
+            "Cleeng": "src"
+        }
+    }
+}
+

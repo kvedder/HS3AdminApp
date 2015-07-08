@@ -1,3 +1,10 @@
+<html>
+<head>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<?php include('menu.php'); ?>
+<div id="content">
 <?php
 
 include ('connect.php'); 
@@ -66,7 +73,7 @@ function getupdates($id) {
 		echo '<table align="center" cellspacing="0" cellpadding="5" width="75%">
 		<tr>
 			<td align="left"><b>Update Text</b></td>
-			<td align="left"><b>Parent Ticket/b></td>
+			<td align="left"><b>Parent Ticket</b></td>
 			<td align="left"><b>Date Update Created</b></td>
 			<td align="left"><b><a href="update_clients.php?sort=nm">Created By User</a></b></td>
 		</tr>
@@ -110,7 +117,9 @@ $ticket_row = mysqli_fetch_array($ticket_result);
 
 //Get Client Name to Display to the User
 $client = $ticket_row['ticket_client'];
-echo $client;
+
+//echo $client; // displays clientid from table
+
 $client_query = "SELECT * FROM clients WHERE clientid='$client'";
 			     $client_result = mysqli_query($dbc, $client_query);
 			     $client_row=mysqli_fetch_array($client_result);
@@ -166,10 +175,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		} // End of if (empty($errors)) IF. */
 ?>
-<html>
-	<head>
-	</head>
-	<body>
+
 		<h2>Ticket Information:</h2>
 		<form action="open_ticket.php" method="post">
 			<p><b>Ticket Title:&nbsp;&nbsp;&nbsp;</b> <?php echo $ticket_row['ticket_title'];?></p>
@@ -191,5 +197,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 		<h2>Previous Updates:</h2>
 <?php getupdates($id); ?>
+	</div>
 	</body>
 </html>

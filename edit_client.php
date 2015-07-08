@@ -1,8 +1,19 @@
+<html>
+<head>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<?php include('menu.php'); ?>
+
 <?php # Script 10.3 - edit_user.php
 // This page is for editing a user record.
 // This page is accessed through view_users.php.
 
 $page_title = 'Edit a Client\'s Info';
+?>
+<div id="content">
+
+<?php
 
 echo '<h1>Edit a Client</h1>';
 echo '<h3>Primary Contact Information</h3>';
@@ -154,5 +165,8 @@ echo "<a href='list_clients.php'>Go Back to Client List.</a>";
 
 mysqli_close($dbc);
 		
-include ('includes/footer.html');
+//include ('includes/footer.html');
 ?>
+</div>
+</body>
+</html>

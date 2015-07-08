@@ -1,3 +1,11 @@
+<html>
+<head>
+<link href="style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<?php include('menu.php'); ?>
+<div id="content">
+
 
 <?php # HS3- open_ticket.php
 // This page is for creating a new trouble ticket.
@@ -135,5 +143,8 @@ echo "<a href='list_clients.php'>Go Back to Client List.</a>";
 
 mysqli_close($dbc);
 		
-include ('includes/footer.html');
+//include ('includes/footer.html');
 ?>
+</div>
+</body>
+</html>

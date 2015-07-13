@@ -1,1 +1,1 @@
-<div id="menu"><h1>Main Menu</h1><br>Dashboard<br><a href="list_tickets.php">Tickets</a><br><a href="list_clients.php">Clients</a><br><a href="offers.php">Offers</a><br>Options<br>Users<br>Logout</div>
+<div id="menu"><h1>Main Menu</h1><br>Dashboard<br><a href="list_tickets.php">Tickets</a><br><a href="list_clients.php">Clients</a><br><a href="offers.php">Offers</a><br><a href="media.php">Media</a><br>Options<br>Users<br>Logout</div>

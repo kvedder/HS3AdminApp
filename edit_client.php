@@ -150,7 +150,7 @@ if (mysqli_num_rows($r) == 1) { // Valid user ID, show the form.
 <p>Kaltura Client ID: <input type="text" name="kaltura_pid" size="60" maxlength="60" value="' . $row['kaltura_pid'] . '" /><br><i> I.E. 101</i></p>
 <p>Kaltura Admin API Secret: <input type="text" name="kadmin_secret" size="60" maxlength="60" value="' . $row['kadmin_secret'] . '" /></p>
 <p>Kaltura Primary Player ID: <input type="text" name="kplayer" size="60" maxlength="60" value="' . $row['kplayer'] . '" /></p>
-<p>Wordpress Multisite Server URL: <input type="text" name="wp_url" size="60" maxlength="60" value="' . $row['wp_url'] . '" /></p>
+<p>Wordpress URL TO XMLRPC: <input type="text" name="wp_url" size="60" maxlength="60" value="' . $row['wp_url'] . '" /></p>
 <p>Wordpress Blog ID: <input type="text" name="wp_blogid" size="60" maxlength="60" value="' . $row['wp_blogid'] . '" /></p>
 <p>Wowza Server URL: <input type="text" name="stream_server" size="60" maxlength="60" value="' . $row['stream_server'] . '" /><br><i> I.E. http://streamengine.wosn.tv:1935/</i></p>
 <p>Relative Path Where FMLE XML Files: <input type="text" name="xml_path" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>

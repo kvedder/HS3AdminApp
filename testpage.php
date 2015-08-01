@@ -1,17 +1,32 @@
 <?php
 
-include('connect.php');
 
-//assign client to variable
-$client = $_GET['id'];
 
-//get client name
-$getname = "SELECT client_name FROM clients WHERE clientid='$client'";
-$nameresult = mysqli_query($dbc, $getname);
-$namerow = mysqli_fetch_array($nameresult, MYSQLI_NUM);
-$clientname = $namerow[0];
+function delete_client($clientid) {
+require('connect.php');
+	//delete all ticket updates
+	$q = "SELECT * FROM tickets WHERE ticket_client = '$clientid';";
+	$r = mysqli_query($dbc, $q);
+	$row = mysqli_fetch_array ($r);
+	foreach ($row as $rows ) {
+		$ticketid = $rows['ticketid'];
+		$q = "DELETE FROM ticket_updates WHERE parent_ticket = '$ticketid';";
+	}
 
-echo $client;
-echo $clientname;
+	//delete all tickets
+	$q = "DELETE FROM tickets WHERE ticket_client = '$clientid';";
+	$r = mysqli_query($dbc, $q);
+	$row = mysqli_fetch_array ($r);
 
+	//finally delete the client record
+	$q = "DELETE FROM clients WHERE clientid = '$clientid'";
+	if (!mysqli_query($dbc, $q))
+			{
+		die('Error: ' . mysql_error());
+			}
+		echo "1 record deleted.";
+		echo "<script>window.location = 'list_assets.php'</script>";
+}
+
+delete_client(5);
 ?>

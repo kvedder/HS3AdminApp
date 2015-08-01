@@ -46,7 +46,11 @@ require('connect.php');
 	$r = mysqli_query($dbc, $q);
 	$row = mysqli_fetch_array ($r);
 
-	//finally delete the client record
+	//delete the login profile
+	$q = "DELETE FROM users WHERE client_id = '$clientid';";
+	$r = mysqli_query($dbc, $q);
+
+	// delete the client record
 	$q = "DELETE FROM clients WHERE clientid = '$clientid'";
 	if (!mysqli_query($dbc, $q))
 			{
@@ -57,6 +61,7 @@ require('connect.php');
 		flush();
 		usleep(2000000);
 		echo "<script>window.location = 'list_clients.php'</script>";
+
 }
 
 

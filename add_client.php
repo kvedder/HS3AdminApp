@@ -177,6 +177,32 @@ if (empty($errors)) { // If everything's OK.
 	//	} else { // Already registered.
 		//	echo '<p class="error">The email address has already been registered.</p>';
 		}
+
+		require_once ('connect.php'); 
+		$q = "CREATE TABLE `'$memberid'_video_assets` (
+  `asset_id` int(11) NOT NULL AUTO_INCREMENT,
+  `asset_title` varchar(100) DEFAULT NULL,
+  `wp_post_id` int(11) DEFAULT NULL,
+  `kt_entry_id` varchar(45) DEFAULT NULL,
+  `kt_ref_id` varchar(45) DEFAULT NULL,
+  `cleeng_offer_id` varchar(45) DEFAULT NULL,
+  `cleeng_price` varchar(45) DEFAULT NULL,
+  `cleeng_offer_type` varchar(45) DEFAULT NULL,
+  `game_date` varchar(45) DEFAULT NULL,
+  `home_score` int(11) DEFAULT NULL,
+  `away_score` int(11) DEFAULT NULL,
+  `asset_type` varchar(45) DEFAULT NULL,
+  `clip_attached` int(11) DEFAULT NULL,
+  `category` varchar(45) DEFAULT NULL,
+  `game_start_time` time DEFAULT NULL,
+  `from_live` int(3) DEFAULT NULL,
+  PRIMARY KEY (`asset_id`),
+  UNIQUE KEY `asset_id_UNIQUE` (`asset_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=435 DEFAULT CHARSET=latin1 COMMENT='master list of assets for hs3 customer';
+";
+mysqli_query ($dbc, $q);
+
+
 		
 	} else { // Report the errors.
 
@@ -186,7 +212,9 @@ if (empty($errors)) { // If everything's OK.
 		}
 		echo '</p><p>Please try again.</p>';
 
-		
+
+
+	
 	
 	 }// End of if (empty($errors)) IF.	
 

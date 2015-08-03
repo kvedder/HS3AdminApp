@@ -36,8 +36,7 @@ $q2 = "SELECT * FROM clients WHERE clientid='4'";
 			$r = @mysqli_query ($dbc, $q2);
 			$num = mysqli_num_rows ($r);
 			printf("Select returned %d rows.\n", mysqli_num_rows($r));
-			*/
-require('connect.php');
+		*/	
 $client_state = 'OH';
 			//generate the unique member ID
 
@@ -46,6 +45,39 @@ $client_state = 'OH';
 		$client_count = mysqli_num_rows($r); //get count of clients from that state currently
 		$next_num = $client_count + 1; //increase count by 1 for next client
 		$num_padded = sprintf("%02d", $next_num);  //always make sure single digits have a 0 in front
-		$newname = $client_state . $num_padded; //generate new name
-			echo 'the next client will be ' . $newname . '!';
+		$memberid = $client_state . $num_padded; //generate new name
+			echo 'the next client will be ' . $memberid . '!';
+
+			
+
+
+require('connect.php');
+$q = "CREATE TABLE `$memberid-videos` (
+  `asset_id` int(11) NOT NULL AUTO_INCREMENT,
+  `asset_title` varchar(100) DEFAULT NULL,
+  `wp_post_id` int(11) DEFAULT NULL,
+  `kt_entry_id` varchar(45) DEFAULT NULL,
+  `kt_ref_id` varchar(45) DEFAULT NULL,
+  `cleeng_offer_id` varchar(45) DEFAULT NULL,
+  `cleeng_price` varchar(45) DEFAULT NULL,
+  `cleeng_offer_type` varchar(45) DEFAULT NULL,
+  `game_date` varchar(45) DEFAULT NULL,
+  `home_score` int(11) DEFAULT NULL,
+  `away_score` int(11) DEFAULT NULL,
+  `asset_type` varchar(45) DEFAULT NULL,
+  `clip_attached` int(11) DEFAULT NULL,
+  `category` varchar(45) DEFAULT NULL,
+  `game_start_time` time DEFAULT NULL,
+  `from_live` int(3) DEFAULT NULL,
+  PRIMARY KEY (`asset_id`),
+  UNIQUE KEY `asset_id_UNIQUE` (`asset_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=435 DEFAULT CHARSET=latin1 COMMENT='master list of assets for hs3 customer';
+";
+if (mysqli_query ($dbc, $q)) {
+
+	echo "Database created succesfully!";
+} else {
+    echo "Error creating database: " . mysqli_error($conn);
+}
+
 		?>

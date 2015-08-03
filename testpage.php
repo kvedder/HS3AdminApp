@@ -1,6 +1,6 @@
 <?php
 
-
+/*
 
 function delete_client($clientid) {
 require('connect.php');
@@ -28,5 +28,24 @@ require('connect.php');
 		echo "<script>window.location = 'list_assets.php'</script>";
 }
 
-delete_client(5);
-?>
+delete_client(5); 
+
+
+$q2 = "SELECT * FROM clients WHERE clientid='4'";	
+
+			$r = @mysqli_query ($dbc, $q2);
+			$num = mysqli_num_rows ($r);
+			printf("Select returned %d rows.\n", mysqli_num_rows($r));
+			*/
+require('connect.php');
+$client_state = 'OH';
+			//generate the unique member ID
+
+		$q = "SELECT * from clients where LEFT(memberid , 2) = '$client_state';"; //search the db by state
+		$r = @mysqli_query ($dbc, $q); //run the query
+		$client_count = mysqli_num_rows($r); //get count of clients from that state currently
+		$next_num = $client_count + 1; //increase count by 1 for next client
+		$num_padded = sprintf("%02d", $next_num);  //always make sure single digits have a 0 in front
+		$newname = $client_state . $num_padded; //generate new name
+			echo 'the next client will be ' . $newname . '!';
+		?>

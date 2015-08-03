@@ -57,6 +57,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		$client_state = mysqli_real_escape_string($dbc, trim($_POST['client_state']));
 	}
 
+// generate the uniqure member ID
+		$q = "SELECT * from clients where LEFT(memberid , 2) = '$client_state';"; //search the db by state
+		$r = @mysqli_query ($dbc, $q); //run the query
+		$client_count = mysqli_num_rows($r); //get count of clients from that state currently
+		$next_num = $client_count + 1; //increase count by 1 for next client
+		$num_padded = sprintf("%02d", $next_num);  //always make sure single digits have a 0 in front
+		$memberid = $client_state . $num_padded; //generate new name
+
+
 //set the rest of the variables
 $client_zip = mysqli_real_escape_string($dbc, trim($_POST['client_zip']));
 $client_phone = mysqli_real_escape_string($dbc, trim($_POST['client_phone']));
@@ -73,7 +82,7 @@ $kadmin_secret = mysqli_real_escape_string($dbc, trim($_POST['kadmin_secret']));
 $kaltura_url = mysqli_real_escape_string($dbc, trim($_POST['kaltura_url']));
 $kaltura_pid = mysqli_real_escape_string($dbc, trim($_POST['kaltura_pid']));
 $kplayer = mysqli_real_escape_string($dbc, trim($_POST['kplayer']));
-$memberid = mysqli_real_escape_string($dbc, trim($_POST['memberid']));
+$memberid = mysqli_real_escape_string($dbc, trim($memberid));
 $stream_server = mysqli_real_escape_string($dbc, trim($_POST['stream_server']));
 $wp_blogid = mysqli_real_escape_string($dbc, trim($_POST['wp_blogid']));
 $wp_url = mysqli_real_escape_string($dbc, trim($_POST['wp_url']));
@@ -92,6 +101,11 @@ $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 		//$r = @mysqli_query($dbc, $q);
 		//if (mysqli_num_rows($r) == 0) 
 	{
+
+	
+
+//figure out how many people are already clients from that state
+
 
 //the following query will add the client info to the datbase
 			// Make the query:
@@ -197,17 +211,69 @@ if (mysqli_num_rows($r) == 1) { // Valid user ID, show the form.
 <p>Client School Name: <input type="text" name="client_name" size="60" maxlength="60" value="' . $row['client_name'] . '" /></p>
 <p>Client Primary Contact First Name: <input type="text" name="client_fname" size="60" maxlength="60" value="' . $row['client_fname'] . '" /></p>
 <p>Client Primary Contact Last Name: <input type="text" name="client_lname" size="45" maxlength="60" value="' . $row['client_lname'] . '" /></p>
-<p>Client State: <input type="text" name="client_state" size="30" maxlength="60" value="' . $row['client_state'] . '"  /> </p>
+
 <p>Address: <input type="text" name="client_address" size="60" maxlength="60" value="' . $row['client_address'] . '" /></p>
 <p>City: <input type="text" name="client_city" size="60" maxlength="60" value="' . $row['client_city'] . '" /></p>
-<p>State: <input type="text" name="client_state" size="60" maxlength="60" value="' . $row['client_state'] . '" /></p>
+<p>Client State: <select name="client_state">
+	<option value="AL">Alabama</option>
+	<option value="AK">Alaska</option>
+	<option value="AZ">Arizona</option>
+	<option value="AR">Arkansas</option>
+	<option value="CA">California</option>
+	<option value="CO">Colorado</option>
+	<option value="CT">Connecticut</option>
+	<option value="DE">Delaware</option>
+	<option value="DC">District of Columbia</option>
+	<option value="FL">Florida</option>
+	<option value="GA">Georgia</option>
+	<option value="HI">Hawaii</option>
+	<option value="ID">Idaho</option>
+	<option value="IL">Illinois</option>
+	<option value="IN">Indiana</option>
+	<option value="IA">Iowa</option>
+	<option value="KS">Kansas</option>
+	<option value="KY">Kentucky</option>
+	<option value="LA">Louisiana</option>
+	<option value="ME">Maine</option>
+	<option value="MD">Maryland</option>
+	<option value="MA">Massachusetts</option>
+	<option value="MI">Michigan</option>
+	<option value="MN">Minnesota</option>
+	<option value="MS">Mississippi</option>
+	<option value="MO">Missouri</option>
+	<option value="MT">Montana</option>
+	<option value="NE">Nebraska</option>
+	<option value="NV">Nevada</option>
+	<option value="NH">New Hampshire</option>
+	<option value="NJ">New Jersey</option>
+	<option value="NM">New Mexico</option>
+	<option value="NY">New York</option>
+	<option value="NC">North Carolina</option>
+	<option value="ND">North Dakota</option>
+	<option value="OH">Ohio</option>
+	<option value="OK">Oklahoma</option>
+	<option value="OR">Oregon</option>
+	<option value="PA">Pennsylvania</option>
+	<option value="RI">Rhode Island</option>
+	<option value="SC">South Carolina</option>
+	<option value="SD">South Dakota</option>
+	<option value="TN">Tennessee</option>
+	<option value="TX">Texas</option>
+	<option value="UT">Utah</option>
+	<option value="VT">Vermont</option>
+	<option value="VA">Virginia</option>
+	<option value="WA">Washington</option>
+	<option value="WV">West Virginia</option>
+	<option value="WI">Wisconsin</option>
+	<option value="WY">Wyoming</option>
+</select </p>
 <p>Zip Code: <input type="text" name="client_zip" size="60" maxlength="60" value="' . $row['client_zip'] . '" /></p>
 <p>Contact E-Mail: <input type="text" name="client_email" size="60" maxlength="60" value="' . $row['client_email'] . '" /></p>
 <p>Contact Phone: <input type="text" name="client_phone" size="60" maxlength="60" value="' . $row['client_phone'] . '" /></p>
 <br><br>
 <h3>Software Configuration</h3>
 
-<p>HS3 Member ID: <input type="text" name="memberid" size="60" maxlength="60" value="' . $row['memberid'] . '" /></p>
+
 <p>MySQL DB Hostname: <input type="text" name="dbhost" size="60" maxlength="60" value="' . $row['dbhost'] . '" /></p>
 <p>MySQL DB User: <input type="text" name="dbuser" size="60" maxlength="60" value="' . $row['dbuser'] . '" /></p>
 <p>MySQL DB Password: <input type="text" name="dbpass" size="60" maxlength="60" value="' . $row['dbpass'] . '" /></p>

@@ -93,6 +93,7 @@ $r = @mysqli_query ($dbc, $q); // Run the query.
 echo '
 
 <h1>Current Clients</h1>
+<h5><a href="add_client.php">Add a Client</a></h5>
 <table align="left" cellspacing="0" cellpadding="5" width="75%">
 <tr>
 	<td align="left"><b>Edit</b></td>

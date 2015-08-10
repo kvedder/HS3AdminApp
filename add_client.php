@@ -94,6 +94,7 @@ $xml_path = mysqli_real_escape_string($dbc, trim($_POST['xml_path']));
 $pri_color = mysqli_real_escape_string($dbc, trim($_POST['pri_color']));
 $team_logo = mysqli_real_escape_string($dbc, trim($_POST['team_logo']));
 $cleeng_key = mysqli_real_escape_string($dbc, trim($_POST['cleeng_key']));
+$cleeng_email = mysqli_real_escape_string($dbc, trim($_POST['cleeng_email']));
 $user_id = mysqli_real_escape_string($dbc, trim($_POST['user_id']));
 $pass = mysqli_real_escape_string($dbc, trim($_POST['pass']));
 $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
@@ -115,7 +116,7 @@ $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 
 //the following query will add the client info to the datbase
 			// Make the query:
-			$q = "INSERT INTO `hs3`.`clients` (`cleeng_key`, `team_logo`,`pri_color`,`dbtable`,`dbhost`,`dbuser`,`dbpass`,`dbname`,`kaltura_url`,`admin_url`,`kaltura_pid`,`kadmin_secret`,`kplayer`,`memberid`,`wp_url`,`wp_blogid`,`stream_server`,`xml_path`,`client_name`,`client_fname`,`client_lname`,`client_address`,`client_city`,`client_state`,`client_zip`,`client_email`,`client_phone`) VALUES ('$cleeng_key', $team_logo', '$pri_color', '$dbtable', '$dbhost', '$dbuser','$dbpass','$dbname','$kaltura_url','$admin_url','$kaltura_pid','$kadmin_secret','$kplayer','$memberid','$wp_url','$wp_blogid','$stream_server','$xml_path','$client_name','$client_fname','$client_lname','$client_address','$client_city','$client_state','$client_zip','$client_email','$client_phone')";
+			$q = "INSERT INTO `hs3`.`clients` (`cleeng_email`, `cleeng_key`, `team_logo`,`pri_color`,`dbtable`,`dbhost`,`dbuser`,`dbpass`,`dbname`,`kaltura_url`,`admin_url`,`kaltura_pid`,`kadmin_secret`,`kplayer`,`memberid`,`wp_url`,`wp_blogid`,`stream_server`,`xml_path`,`client_name`,`client_fname`,`client_lname`,`client_address`,`client_city`,`client_state`,`client_zip`,`client_email`,`client_phone`) VALUES ('$cleeng_email', '$cleeng_key', '$team_logo', '$pri_color', '$dbtable', '$dbhost', '$dbuser','$dbpass','$dbname','$kaltura_url','$admin_url','$kaltura_pid','$kadmin_secret','$kplayer','$memberid','$wp_url','$wp_blogid','$stream_server','$xml_path','$client_name','$client_fname','$client_lname','$client_address','$client_city','$client_state','$client_zip','$client_email','$client_phone')";
 			//execute the query added client information
 			$r = @mysqli_query ($dbc, $q);
 			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
@@ -126,6 +127,7 @@ $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 			} else { // If it did not run OK.
 				echo '<p class="error">The user could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
 				echo '<p>' . mysqli_error($dbc) . '<br />Query: ' . $q . '</p>'; // Debugging message.
+				die();
 			}
 
 	//	} else { // Already registered.
@@ -178,6 +180,7 @@ if (empty($errors)) { // If everything's OK.
 			} else { // If it did not run OK.
 				echo '<p class="error">The user could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
 				echo '<p>' . mysqli_error($dbc) . '<br />Query: ' . $q . '</p>'; // Debugging message.
+				die();
 			}
 
 	//	} else { // Already registered.
@@ -208,7 +211,44 @@ if (empty($errors)) { // If everything's OK.
 ";
 mysqli_query ($dbc, $q);
 
+// create cleeng associate
+require_once('./inc/cleeng/cleeng_api.php');
 
+$cleengApi = new Cleeng_Api();
+
+		$cleengApi->setDistributorToken('LKL4ZSQhJHNnGLizJAioriOWwV0gbZaSaOKdB28uUVAuhiwj');
+		$associateData = array(
+		
+			'email' => $cleeng_email,
+			'locale' => 'en_US',
+			'country' => 'US',
+			'currency' => 'USD',
+			'firstName' => $client_fname,
+			'lastName' => $client_lname,
+			'siteName' => $client_name,
+			'siteURL' => $wp_url,
+
+				);
+
+		$result = $cleengApi->createAssociate($associateData);
+
+//use if to verify result, if verified then continue to insert the data into the SQL DB.
+
+$q  = "INSERT INTO cleeng_associates (email, currency, firstname, lastname, sitename, siteurl, locale, country, licenseType ) VALUES ('$result->email', '$result->currency', '$result->firstName', '$result->lastName', '$result->siteName', '$result->siteUrl', '$result->locale', '$result->country', '$result->licenseType');";
+
+mysqli_query ($dbc, $q);
+
+if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
+
+				// Print a message:
+				echo '<p><strong>The Cleeng Associate account has been created.</strong></p>';	
+				
+			} else { // If it did not run OK.
+
+				echo '<p class="error">The Cleeng associate account could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
+				echo '<p>' . mysqli_error($dbc) . '<br />Query: ' . $q . '</p>'; // Debugging message.
+				die();
+			}
 		
 	} else { // Report the errors.
 
@@ -320,7 +360,8 @@ if (mysqli_num_rows($r) == 1) { // Valid user ID, show the form.
 <p>Wordpress Blog ID: <input type="text" name="wp_blogid" size="60" maxlength="60" value="' . $row['wp_blogid'] . '" /></p>
 <p>Wowza Server URL: <input type="text" name="stream_server" size="60" maxlength="60" value="' . $row['stream_server'] . '" /><br><i> I.E. http://streamengine.wosn.tv:1935/</i></p>
 <p>Relative Path Where FMLE XML Files: <input type="text" name="xml_path" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>
-
+<p>Cleeng API Key: <input type="text" name="cleeng_key" size="60" maxlength="60" value="' . $row['cleeng_key'] . '" /></p>
+<p>Cleeng E-mail: <input type="text" name="cleeng_email" size="60" maxlength="60" value="' . $row['cleeng_email'] . '" /></p>
 <p>User Name: <input type="text" name="user_id" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>
 <p>Password: <input type="text" name="pass" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>
 <p>E-mail: <input type="text" name="email" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>

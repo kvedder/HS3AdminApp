@@ -150,13 +150,14 @@ while ($count < $totalOffers) {
 	<div id="header-row">
 		<div class="table-header" style="width:20%;"> Offer Title </div>
 		<div class="table-header" style="width:10%;">Offer ID</div>
-		<div class="table-header" style="width:10%;">Email</div>
-		<div class="table-header" style="width:13%;">URL</div>
+		<div class="table-header" style="width:8%;">Email</div>
+		<div class="table-header" style="width:11%;">URL</div>
 		<div class="table-header" style="width:11%;">Date Created</div>
 		<div class="table-header" style="width:12%;">Last Updated</div>
 		<div class="table-header" style="width:3%;">Curr.</div>
 		<div class="table-header" style="width:3%;">Price</div>
 		<div class="table-header" style="width:8%;">Tags</div>
+		<div class="table-header" style="width:4%;">Options</div>
 		
 	</div>
 	<div class="content">
@@ -169,10 +170,10 @@ foreach ($masterOfferList as $offer) { ?>
 			<div class="table-cell" style="width:10%;">
 			<?php echo $offer->id;?>
 			</div>
-			<div class="table-cell" style="width:10%;">
+			<div class="table-cell" style="width:8%;">
 			<?php echo $offer->publisherEmail;?>
 			</div>
-			<div class="table-cell" style="width:13%;">
+			<div class="table-cell" style="width:11%;">
 			<?php echo $offer->url;?>
 			</div>
 			<div class="table-cell" style="width:11%;">
@@ -209,6 +210,9 @@ foreach ($masterOfferList as $offer) { ?>
 				echo $tag . ", ";
 			}?>
 			</div>
+			<div class="table-cell" style="width:4%;">
+			<a href="edit_sub_offer.php?id=<?php echo $id; ?>&offer=<?php echo $offer->id;?>">Edit Offer</a>
+			</div>
 			
 		</div>
 	
@@ -237,6 +241,13 @@ foreach ($cats as $cat) {
 <?php
 }
 ?>
+<input type="checkbox" name="tags[]" value="2015" />2015-2016 <br />
+<input type="checkbox" name="tags[]" value="2016" />2016-2017 <br />
+
+<input type="checkbox" name="tags[]" value="fall" />Fall <br />
+<input type="checkbox" name="tags[]" value="winter" />Winter <br />
+<input type="checkbox" name="tags[]" value="spring" />Spring <br />
+
 <input class="create-button" type="submit" value="Create" tabindex="6" id="submit" name="submit" />
 <input type="hidden" name="newoffer" value="post" /> 
 

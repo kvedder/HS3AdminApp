@@ -93,7 +93,7 @@ $wp_url = mysqli_real_escape_string($dbc, trim($_POST['wp_url']));
 $xml_path = mysqli_real_escape_string($dbc, trim($_POST['xml_path']));
 $pri_color = mysqli_real_escape_string($dbc, trim($_POST['pri_color']));
 $team_logo = mysqli_real_escape_string($dbc, trim($_POST['team_logo']));
-$cleeng_key = mysqli_real_escape_string($dbc, trim($_POST['cleeng_key']));
+
 $cleeng_email = mysqli_real_escape_string($dbc, trim($_POST['cleeng_email']));
 $user_id = mysqli_real_escape_string($dbc, trim($_POST['user_id']));
 $pass = mysqli_real_escape_string($dbc, trim($_POST['pass']));
@@ -116,7 +116,7 @@ $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 
 //the following query will add the client info to the datbase
 			// Make the query:
-			$q = "INSERT INTO `hs3`.`clients` (`cleeng_email`, `cleeng_key`, `team_logo`,`pri_color`,`dbtable`,`dbhost`,`dbuser`,`dbpass`,`dbname`,`kaltura_url`,`admin_url`,`kaltura_pid`,`kadmin_secret`,`kplayer`,`memberid`,`wp_url`,`wp_blogid`,`stream_server`,`xml_path`,`client_name`,`client_fname`,`client_lname`,`client_address`,`client_city`,`client_state`,`client_zip`,`client_email`,`client_phone`) VALUES ('$cleeng_email', '$cleeng_key', '$team_logo', '$pri_color', '$dbtable', '$dbhost', '$dbuser','$dbpass','$dbname','$kaltura_url','$admin_url','$kaltura_pid','$kadmin_secret','$kplayer','$memberid','$wp_url','$wp_blogid','$stream_server','$xml_path','$client_name','$client_fname','$client_lname','$client_address','$client_city','$client_state','$client_zip','$client_email','$client_phone')";
+			$q = "INSERT INTO `hs3`.`clients` (`cleeng_email`, `team_logo`,`pri_color`,`dbtable`,`dbhost`,`dbuser`,`dbpass`,`dbname`,`kaltura_url`,`admin_url`,`kaltura_pid`,`kadmin_secret`,`kplayer`,`memberid`,`wp_url`,`wp_blogid`,`stream_server`,`xml_path`,`client_name`,`client_fname`,`client_lname`,`client_address`,`client_city`,`client_state`,`client_zip`,`client_email`,`client_phone`) VALUES ('$cleeng_email', '$team_logo', '$pri_color', '$dbtable', '$dbhost', '$dbuser','$dbpass','$dbname','$kaltura_url','$admin_url','$kaltura_pid','$kadmin_secret','$kplayer','$memberid','$wp_url','$wp_blogid','$stream_server','$xml_path','$client_name','$client_fname','$client_lname','$client_address','$client_city','$client_state','$client_zip','$client_email','$client_phone')";
 			//execute the query added client information
 			$r = @mysqli_query ($dbc, $q);
 			if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
@@ -216,7 +216,14 @@ require_once('./inc/cleeng/cleeng_api.php');
 
 $cleengApi = new Cleeng_Api();
 
-		$cleengApi->setDistributorToken('LKL4ZSQhJHNnGLizJAioriOWwV0gbZaSaOKdB28uUVAuhiwj');
+//figure out if sandbox or not ans set right token
+if (cleeng_sandbox == '1') {
+	$cleengApi->enableSandbox();
+	$cleengApi->setDistributorToken(cleeng_sandbox_token);
+	} else {
+	$cleengApi->setDistributorToken(cleeng_token);
+	}
+		
 		$associateData = array(
 		
 			'email' => $cleeng_email,
@@ -360,9 +367,9 @@ if (mysqli_num_rows($r) == 1) { // Valid user ID, show the form.
 <p>Wordpress Blog ID: <input type="text" name="wp_blogid" size="60" maxlength="60" value="' . $row['wp_blogid'] . '" /></p>
 <p>Wowza Server URL: <input type="text" name="stream_server" size="60" maxlength="60" value="' . $row['stream_server'] . '" /><br><i> I.E. http://streamengine.wosn.tv:1935/</i></p>
 <p>Relative Path Where FMLE XML Files: <input type="text" name="xml_path" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>
-<p>Cleeng API Key: <input type="text" name="cleeng_key" size="60" maxlength="60" value="' . $row['cleeng_key'] . '" /></p>
+
 <p>Cleeng E-mail: <input type="text" name="cleeng_email" size="60" maxlength="60" value="' . $row['cleeng_email'] . '" /></p>
-<p>User Name: <input type="text" name="user_id" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>
+<p>Content Manager User Name: <input type="text" name="user_id" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>
 <p>Password: <input type="text" name="pass" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>
 <p>E-mail: <input type="text" name="email" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>
 

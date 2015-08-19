@@ -67,20 +67,23 @@ $client_address = mysqli_real_escape_string($dbc, trim($_POST['client_address'])
 $admin_url = mysqli_real_escape_string($dbc, trim($_POST['admin_url']));
 $dbhost = mysqli_real_escape_string($dbc, trim($_POST['dbhost']));
 $dbname = mysqli_real_escape_string($dbc, trim($_POST['dbname']));
+$dbtable = mysqli_real_escape_string($dbc, trim($memberid . '_video_assets'));
 $dbuser = mysqli_real_escape_string($dbc, trim($_POST['dbuser']));
 $dbpass = mysqli_real_escape_string($dbc, trim($_POST['dbpass']));
 $kadmin_secret = mysqli_real_escape_string($dbc, trim($_POST['kadmin_secret']));
 $kaltura_url = mysqli_real_escape_string($dbc, trim($_POST['kaltura_url']));
 $kaltura_pid = mysqli_real_escape_string($dbc, trim($_POST['kaltura_pid']));
 $kplayer = mysqli_real_escape_string($dbc, trim($_POST['kplayer']));
-$memberid = mysqli_real_escape_string($dbc, trim($_POST['memberid']));
+$memberid = mysqli_real_escape_string($dbc, trim($memberid));
 $stream_server = mysqli_real_escape_string($dbc, trim($_POST['stream_server']));
 $wp_blogid = mysqli_real_escape_string($dbc, trim($_POST['wp_blogid']));
 $wp_url = mysqli_real_escape_string($dbc, trim($_POST['wp_url']));
 $xml_path = mysqli_real_escape_string($dbc, trim($_POST['xml_path']));
-
+$pri_color = mysqli_real_escape_string($dbc, trim($_POST['pri_color']));
+$team_logo = mysqli_real_escape_string($dbc, trim($_POST['team_logo']));
+$cleeng_email = mysqli_real_escape_string($dbc, trim($_POST['cleeng_email']));
 $user_id = mysqli_real_escape_string($dbc, trim($_POST['user_id']));
-$pass = mysqli_real_escape_string($dbc, trim($_POST['pass']));
+
 $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 
 
@@ -127,7 +130,7 @@ $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 			//------------------------------------------------------------------------------------------------------------------------
 
 			// Make the query:
-			$q = "UPDATE `hs3`.`clients` SET `dbhost` = '$dbhost',`dbuser` = '$dbuser',`dbpass` = '$dbpass',`dbname` = '$dbname',`kaltura_url` = '$kaltura_url',`admin_url` = '$admin_url',`kaltura_pid` = '$kaltura_pid',`kadmin_secret` = '$kadmin_secret',`kplayer` = '$kplayer',`memberid` = '$memberid',`wp_url` = '$wp_url',`wp_blogid` = '$wp_blogid',`stream_server` = '$stream_server',`xml_path` = '$xml_path',`client_name` = '$client_name',`client_fname` = '$client_fname',`client_lname` = '$client_lname',`client_address` = '$client_address',`client_city` = '$client_city',`client_state` = '$client_state',`client_zip` = '$client_zip',`client_email` = '$client_email',`client_phone` = '$client_phone' WHERE clientid='$id' LIMIT 1";
+			$q = "UPDATE `hs3`.`clients` SET `dbhost` = '$dbhost',`dbuser` = '$dbuser',`dbpass` = '$dbpass',`dbname` = '$dbname',`kaltura_url` = '$kaltura_url',`admin_url` = '$admin_url',`kaltura_pid` = '$kaltura_pid',`kadmin_secret` = '$kadmin_secret',`kplayer` = '$kplayer',`memberid` = '$memberid',`wp_url` = '$wp_url',`wp_blogid` = '$wp_blogid',`stream_server` = '$stream_server',`xml_path` = '$xml_path',`client_name` = '$client_name',`client_fname` = '$client_fname',`client_lname` = '$client_lname',`client_address` = '$client_address',`client_city` = '$client_city',`client_state` = '$client_state',`client_zip` = '$client_zip',`client_email` = '$client_email',`client_phone` = '$client_phone', `pri_color` = '$pri_color', `team_logo` = '$team_logo', `cleeng_email` = '$cleeng_email' WHERE clientid='$id' LIMIT 1";
 
 			$r = @mysqli_query ($dbc, $q);
 
@@ -146,11 +149,11 @@ $email = mysqli_real_escape_string($dbc, trim($_POST['email']));
 			} elseif ( $affected == 0 AND mysqli_num_rows($r2) == 1 ) {
 
 				// Print a message:
-				echo '<p><strong>The cclient information and software config has been updated, but no changes were requested.</strong></p>';
+				echo '<p><strong>The client information and software config has been updated, but no changes were requested.</strong></p>';
 
 			} else { // If it did not run OK.
 
-				echo '<p class="error"><strong>The client information and software configF could not be edited due to a system error. We apologize for any inconvenience.</strong></p>'; // Public message.
+				echo '<p class="error"><strong>The client information and software config could not be edited due to a system error. We apologize for any inconvenience.</strong></p>'; // Public message.
 				echo '<p>' . mysqli_error($dbc) . '<br />Query: ' . $q . '</p>'; // Debugging message.
 			}
 				
@@ -189,27 +192,85 @@ $r = @mysqli_query ($dbc, $q);
  
 	// Get the user's information:
 	$user = mysqli_fetch_array ($r);
-	
+
+?>
+
+
+<?php
+	echo '<script>$(document).ready(function() {
+		 $("#state25").val("'. $row['client_state'] . '"); }); </script> ';
+
 // Create the form:
 	echo '<form action="edit_client.php" method="post">
 <p>Client School Name: <input type="text" name="client_name" size="60" maxlength="60" value="' . $row['client_name'] . '" /></p>
 <p>Client Primary Contact First Name: <input type="text" name="client_fname" size="60" maxlength="60" value="' . $row['client_fname'] . '" /></p>
 <p>Client Primary Contact Last Name: <input type="text" name="client_lname" size="45" maxlength="60" value="' . $row['client_lname'] . '" /></p>
-<p>Client State: <input type="text" name="client_state" size="30" maxlength="60" value="' . $row['client_state'] . '"  /> </p>
+
 <p>Address: <input type="text" name="client_address" size="60" maxlength="60" value="' . $row['client_address'] . '" /></p>
 <p>City: <input type="text" name="client_city" size="60" maxlength="60" value="' . $row['client_city'] . '" /></p>
-<p>State: <input type="text" name="client_state" size="60" maxlength="60" value="' . $row['client_state'] . '" /></p>
+<p>Client State: <select name="client_state" id="state25">
+	<option value="AL">Alabama</option>
+	<option value="AK">Alaska</option>
+	<option value="AZ">Arizona</option>
+	<option value="AR">Arkansas</option>
+	<option value="CA">California</option>
+	<option value="CO">Colorado</option>
+	<option value="CT">Connecticut</option>
+	<option value="DE">Delaware</option>
+	<option value="DC">District of Columbia</option>
+	<option value="FL">Florida</option>
+	<option value="GA">Georgia</option>
+	<option value="HI">Hawaii</option>
+	<option value="ID">Idaho</option>
+	<option value="IL">Illinois</option>
+	<option value="IN">Indiana</option>
+	<option value="IA">Iowa</option>
+	<option value="KS">Kansas</option>
+	<option value="KY">Kentucky</option>
+	<option value="LA">Louisiana</option>
+	<option value="ME">Maine</option>
+	<option value="MD">Maryland</option>
+	<option value="MA">Massachusetts</option>
+	<option value="MI">Michigan</option>
+	<option value="MN">Minnesota</option>
+	<option value="MS">Mississippi</option>
+	<option value="MO">Missouri</option>
+	<option value="MT">Montana</option>
+	<option value="NE">Nebraska</option>
+	<option value="NV">Nevada</option>
+	<option value="NH">New Hampshire</option>
+	<option value="NJ">New Jersey</option>
+	<option value="NM">New Mexico</option>
+	<option value="NY">New York</option>
+	<option value="NC">North Carolina</option>
+	<option value="ND">North Dakota</option>
+	<option value="OH">Ohio</option>
+	<option value="OK">Oklahoma</option>
+	<option value="OR">Oregon</option>
+	<option value="PA">Pennsylvania</option>
+	<option value="RI">Rhode Island</option>
+	<option value="SC">South Carolina</option>
+	<option value="SD">South Dakota</option>
+	<option value="TN">Tennessee</option>
+	<option value="TX">Texas</option>
+	<option value="UT">Utah</option>
+	<option value="VT">Vermont</option>
+	<option value="VA">Virginia</option>
+	<option value="WA">Washington</option>
+	<option value="WV">West Virginia</option>
+	<option value="WI">Wisconsin</option>
+	<option value="WY">Wyoming</option>
+</select </p>
 <p>Zip Code: <input type="text" name="client_zip" size="60" maxlength="60" value="' . $row['client_zip'] . '" /></p>
 <p>Contact E-Mail: <input type="text" name="client_email" size="60" maxlength="60" value="' . $row['client_email'] . '" /></p>
 <p>Contact Phone: <input type="text" name="client_phone" size="60" maxlength="60" value="' . $row['client_phone'] . '" /></p>
 <br><br>
 <h3>Software Configuration</h3>
-
-<p>HS3 Member ID: <input type="text" name="memberid" size="60" maxlength="60" value="' . $row['memberid'] . '" /></p>
 <p>MySQL DB Hostname: <input type="text" name="dbhost" size="60" maxlength="60" value="' . $row['dbhost'] . '" /></p>
 <p>MySQL DB User: <input type="text" name="dbuser" size="60" maxlength="60" value="' . $row['dbuser'] . '" /></p>
 <p>MySQL DB Password: <input type="text" name="dbpass" size="60" maxlength="60" value="' . $row['dbpass'] . '" /></p>
-<p>MySQL DB Name: <input type="text" name="dbname" size="60" maxlength="60" value="' . $row['dbname'] . '" /></p>
+<p>Primary Color (hex): <input type="text" name="team_logo" size="60" maxlength="60" value="' . $row['team_logo'] . '" /></p>
+<p>Primary Color (hex): <input type="text" name="pri_color" size="60" maxlength="60" value="' . $row['pri_color'] . '" /></p>
 <p>Admin Interface URL: <input type="text" name="admin_url" size="60" maxlength="60" value="' . $row['admin_url'] . '" /></p>
 <p>Kaltura Server Url: <input type="text" name="kaltura_url" size="60" maxlength="60" value="' . $row['kaltura_url'] . '" /><br><i> I.E. http://video.wtlw.com/</i></p>
 <p>Kaltura Client ID: <input type="text" name="kaltura_pid" size="60" maxlength="60" value="' . $row['kaltura_pid'] . '" /><br><i> I.E. 101</i></p>
@@ -219,9 +280,8 @@ $r = @mysqli_query ($dbc, $q);
 <p>Wordpress Blog ID: <input type="text" name="wp_blogid" size="60" maxlength="60" value="' . $row['wp_blogid'] . '" /></p>
 <p>Wowza Server URL: <input type="text" name="stream_server" size="60" maxlength="60" value="' . $row['stream_server'] . '" /><br><i> I.E. http://streamengine.wosn.tv:1935/</i></p>
 <p>Relative Path Where FMLE XML Files: <input type="text" name="xml_path" size="60" maxlength="60" value="' . $row['xml_path'] . '" /></p>
-
-<h3>Login Info</h3>
-<p>User Name: <input type="text" name="user_id" size="60" maxlength="60" value="' . $user['user_id'] . '" /></p>
+<p>Cleeng E-mail: <input type="text" name="cleeng_email" size="60" maxlength="60" value="' . $row['cleeng_email'] . '" /></p>
+<p>Content Manager User Name: <input type="text" name="user_id" size="60" maxlength="60" value="' . $user['user_id'] . '" /></p>
 
 <p>E-mail: <input type="text" name="email" size="60" maxlength="60" value="' . $user['email'] . '" /></p>
 

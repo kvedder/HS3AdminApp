@@ -1,4 +1,6 @@
 <?php
+
+/*
 require_once('./inc/cleeng/cleeng_api.php');
 require ('connect.php'); 
 
@@ -42,4 +44,15 @@ if (mysqli_affected_rows($dbc) == 1) { // If it ran OK.
 				echo '<p class="error">The user could not be added due to a system error. We apologize for any inconvenience.</p>'; // Public message.
 				echo '<p>' . mysqli_error($dbc) . '<br />Query: ' . $q . '</p>'; // Debugging message.
 			}
+
+*/
+
+	require_once('./inc/cleeng/cleeng_api.php');		
+
+$cleengApi = new Cleeng_Api();
+//$email = 'lcc@hs3.tv';
+//$cleengApi->setDistributorToken('LKL4ZSQhJHNnGLizJAioriOWwV0gbZaSaOKdB28uUVAuhiwj');		
+	$result = $cleengApi->listAssociates('LKL4ZSQhJHNnGLizJAioriOWwV0gbZaSaOKdB28uUVAuhiwj');
+
+		var_dump($result);
 		?>

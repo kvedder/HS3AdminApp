@@ -1155,7 +1155,7 @@ class Cleeng_Api
             'createPassOffer',
             array(
                 'publisherToken' => $publisherToken,
-                'offerData' => $offerData
+                'offerData' => $offerData,
             ),
             new Cleeng_Entity_PassOffer()
         );

@@ -103,6 +103,7 @@ echo '
 	<td align="left"><b><a href="list_clients.php?sort=nm">Client Name</a></b></td>
 	<td align="left"><b><a href="list_clients.php?sort=ct">City</a></b></td>
 	<td align="left"><b><a href="list_clients.php?sort=st">State</a></b></td>
+	<td align="left"><b><a href="list_clients.php?sort=st">Offers</a></b></td>
 </tr>
 ';
 
@@ -118,6 +119,7 @@ while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 		<td align="left"><a href="client_summary.php?id=' . $row['clientid'] . '">' . $row['client_name'] . '</a></td>
 		<td align="left">' . $row['client_city'] . '</td>
 		<td align="left">' . $row['client_state'] . '</td>
+		<td align="left"><a href="edit_sub_offers.php?id=' . $row['clientid'] . '">Edit Subscription Offers</a></td>
 	</tr>
 	';
 } // End of WHILE loop.

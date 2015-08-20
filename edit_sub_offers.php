@@ -236,13 +236,13 @@ $cats = getClientCategories($id);
 foreach ($cats as $cat) {
 	# code...
 ?>
-<input type="checkbox" name="tags[]" value="<?php echo $cat['name'] ?>" /><?php echo $cat['name']; ?> <br />
+<input type="checkbox" name="tags[]" value="<?php echo $cat['slug'] ?>" /><?php echo $cat['name']; ?> <br />
 
 <?php
 }
 ?>
-<input type="checkbox" name="tags[]" value="2015" />2015-2016 <br />
-<input type="checkbox" name="tags[]" value="2016" />2016-2017 <br />
+<input type="checkbox" name="tags[]" value="Year2015" />2015-2016 <br />
+<input type="checkbox" name="tags[]" value="Year2016" />2016-2017 <br />
 
 <input type="checkbox" name="tags[]" value="fall" />Fall <br />
 <input type="checkbox" name="tags[]" value="winter" />Winter <br />

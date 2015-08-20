@@ -5,6 +5,8 @@ include_once('connect.php');
 include('functions.php');
 include('./inc/cleeng/cleeng_api.php');
 
+//var_dump($_POST['tags']);
+
 // Check for a valid user ID, through GET or POST:
 if ( (isset($_GET['id'])) )  { // From view_users.php
 	$id = $_GET['id'];
@@ -39,6 +41,11 @@ $cleengApi = new Cleeng_Api();
     	echo "ERROR.";
     }
 
+    //r_dump($offer);
+	$tagslist = array();
+    $tagslist = $offer->accessToTags;
+    //var_dump($tagslist);
+
    
 
 ?>
@@ -59,7 +66,10 @@ $(document).ready(function () {
 <div id="wrapper">
 
 <h2>Create New Subscription Offer:</h2>
-<form action="edit_sub_offers.php?id=<?php echo $config['clientid']; ?>" method="post">
+
+<form action="update_sub_offer.php" method="post">
+<input type="hidden" name="clientid" value="<?php echo $id; ?>" />
+<p>Offer ID: <input type="hidden" name="offerid" value="<?php echo $offerid; ?>" /><?php echo $offerid; ?></p>
 <p>Offer Title: <input type="text" name="title" size="60" maxlength="60" value="<?php echo $offer->title; ?>" /></p>
 <p>URL: <input type="text" name="url" size="60" maxlength="60" value="<?php echo $offer->url; ?>" /></p>
 <p>Price: <input type="text" name="price" size="60" maxlength="60" value="<?php echo $offer->price; ?>" /></p>
@@ -71,63 +81,32 @@ $cats = getClientCategories($config['clientid']);
 foreach ($cats as $cat) {
 	# code...
 ?>
-<input type="checkbox" name="tags[]" value="<?php echo $cat['name'] ?>" /><?php echo $cat['name']; ?> <br />
+<input type="checkbox" name="tags[]" value="<?php echo $cat['slug'] ?>" 
+<?php foreach ($tagslist as $tag ) {
+	if ($tag == $cat['name']) {
+		echo 'checked';
+	}
+	
+}
+?>
+/><?php echo $cat['name']; ?> <br />
 
 <?php
 }
 ?>
-<input type="checkbox" name="tags[]" value="2015" />2015-2016 <br />
-<input type="checkbox" name="tags[]" value="2016" />2016-2017 <br />
+<input type="checkbox" name="tags[]" value="Year-2015" />2015-2016 <br />
+<input type="checkbox" name="tags[]" value="Year-2016" />2016-2017 <br />
 
 <input type="checkbox" name="tags[]" value="fall" />Fall <br />
 <input type="checkbox" name="tags[]" value="winter" />Winter <br />
 <input type="checkbox" name="tags[]" value="spring" />Spring <br />
 
-<input class="create-button" type="submit" value="Create" tabindex="6" id="submit" name="submit" />
+<input class="create-button" type="submit" value="Update Offer" tabindex="6" id="submit" name="submit" />
 <input type="hidden" name="newoffer" value="post" /> 
 
 </form>
 
 </div>
-
-
-
-
-<?php
-if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['newoffer'] )) {
-}
-
-    
-
-if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['updateOffers'] )) {   
-
-$offerTable = $config['memberid'] . '_static_offers';
-
-$q = "TRUNCATE $offerTable ;";
-	echo $q;
-	//execute the query added client information
-	$r = @mysqli_query ($dbc, $q);
-
-// insert SQL query here to add sport cats to table 
-	$num = 1;
-	$i=0;
-
-
-$dbc = mysqli_connect(dbhost, dbuser, dbpassword, dbname) or die('Error connecting to Database!' . mysqli_connect_error() );
-
-
-  
-
-	
-
-} // end post submit IF
-    ?>
-    
-   
-
-<input class="create-button" type="submit" value="Set Offers Now!" tabindex="6" id="submit" name="submit" />
-<input type="hidden" name="updateOffers" value="post" /> 
-</form>
 
 </body>
 </html>

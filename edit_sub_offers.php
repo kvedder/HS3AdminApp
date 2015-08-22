@@ -90,7 +90,12 @@ old code resumes here
 //old code resumes here
 //get total list of offers
 $cleengApi = new Cleeng_Api();
-$cleengApi->setPublisherToken('LKL4ZSQhJHNnGLizJAioriOWwV0gbZaSaOKdB28uUVAuhiwj');
+if (cleeng_sandbox == '1') {
+	$cleengApi->enableSandbox();
+	$cleengApi->setPublisherToken(cleeng_sandbox_token);
+	} else {
+	$cleengApi->setPublisherToken(cleeng_token);
+	}
 $offerOptions = array(
 	'associateEmail' => $config['cleeng_email'],
 	'active' => 1,
@@ -246,7 +251,15 @@ foreach ($cats as $cat) {
 
 <input type="checkbox" name="tags[]" value="fall" />Fall <br />
 <input type="checkbox" name="tags[]" value="winter" />Winter <br />
-<input type="checkbox" name="tags[]" value="spring" />Spring <br />
+<input type="checkbox" name="tags[]" value="spring" />Spring <br /><br>
+Renews:
+<select name="period">
+
+<option value="month">Monthly</option>
+<option value="year">Yearly</option>
+</select>
+
+<br><br>
 
 <input class="create-button" type="submit" value="Create" tabindex="6" id="submit" name="submit" />
 <input type="hidden" name="newoffer" value="post" /> 
@@ -266,7 +279,7 @@ $offerSetup = array(
     'price' => $_POST['price'],
     'url' => $_POST['url'],
     'description' =>  $_POST['desc'],
-    'period' => 'year',
+    'period' => $_POST['period'],
     
     'accessToTags' => $_POST['tags'],
     'associateEmail' => $config['cleeng_email'],

@@ -63,6 +63,13 @@ $offerList = $cleengApi->listPassOffers($offerOptions, $startCount, 50);
 			$masterOfferList[] = $offer;
 		}
 
+$subOfferList = $cleengApi->listSubscriptionOffers($offerOptions, $startCount, 50);
+
+		foreach ($subOfferList->items as $offer) {
+			$masterOfferList[] = $offer;
+		}
+
+
 	$startCount = $startCount + 50;
 }
 /*
@@ -120,7 +127,7 @@ $(document).ready(function () {
 <body>
 <?php include('menu.php'); ?>
 <div id="wrapper">
-<h2>Assign Client Subscription Offers</h2>
+<h2>Assign Client Offers</h2>
 <?php
 
 
@@ -228,8 +235,8 @@ foreach ($masterOfferList as $offer) { ?>
 	</div>
 
 </div>
-<h2>Create New Subscription Offer:</h2>
-<form action="edit_sub_offers.php?id=<?php echo $config['clientid']; ?>" method="post">
+<h2>Create New Pass Offer:</h2>
+<form action="list_offers.php?id=<?php echo $config['clientid']; ?>" method="post">
 <p>Offer Title: <input type="text" name="title" size="60" maxlength="60" value="" /></p>
 <p>URL: <input type="text" name="url" size="60" maxlength="60" value="" /></p>
 <p>Price: <input type="text" name="price" size="60" maxlength="60" value="" /></p>
@@ -269,6 +276,29 @@ Renews:
 </div>
 
 
+<h2>Create New Subscription Offer:</h2>
+<form action="list_offers.php?id=<?php echo $config['clientid']; ?>" method="post">
+<p>Offer Title: <input type="text" name="title" size="60" maxlength="60" value="" /></p>
+<p>URL: <input type="text" name="url" size="60" maxlength="60" value="" /></p>
+<p>Price: <input type="text" name="price" size="60" maxlength="60" value="" /></p>
+<p>Offer Description: <input type="text" name="desc" size="120" maxlength="120" value="" /></p>
+<p>Expires on Date (unix date): <input type="text" name="exp_date" size="120" maxlength="120" value="" /></p>
+<h4>Add Tags:</h4>
+
+Renews:
+<select name="period">
+
+<option value="month">Monthly</option>
+<option value="year">Yearly</option>
+</select>
+
+<br><br>
+
+<input class="create-button" type="submit" value="Create" tabindex="6" id="submit" name="submit" />
+<input type="hidden" name="newSuboffer" value="post" /> 
+
+</form>
+
 
 
 <?php
@@ -301,6 +331,37 @@ $offerSetup = array(
     }
 
    }
+
+if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['newSuboffer'] )) {
+
+$offerSetup = array(
+    'title' => $_POST['title'],
+    'price' => $_POST['price'],
+    'url' => $_POST['url'],
+    'description' =>  $_POST['desc'],
+    'period' => $_POST['period'],
+    
+    'accessToTags' => '(all)',
+    'associateEmail' => $config['cleeng_email'],
+    );
+
+    $cleengApi = new Cleeng_Api();
+    if (cleeng_sandbox == '1') {
+	$cleengApi->enableSandbox();
+	$cleengApi->setPublisherToken(cleeng_sandbox_token);
+	} else {
+	$cleengApi->setPublisherToken(cleeng_token);
+	}
+
+    $offer = $cleengApi->createSubscriptionOffer($offerSetup);
+    if ($offer->id) {
+    	Echo "Subscription Offer Created Sucessfully.";
+    } else {
+    	echo "ERROR.";
+    }
+
+   }
+
 
 
 if( 'POST' == $_SERVER['REQUEST_METHOD'] && !empty( $_POST['updateOffers'] )) {   
@@ -383,7 +444,7 @@ foreach ($cats as $cat) {
 	<!-- ////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <h2>Set Client Offers</h2>
-<form action="edit_sub_offers.php?id=<?php echo $config['clientid']; ?>" method="post">
+<form action="list_offers.php?id=<?php echo $config['clientid']; ?>" method="post">
 <p>Current All Access Offer: 
 <select name="allaccess">
 	<?php

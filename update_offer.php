@@ -29,7 +29,7 @@ $clientid = $_POST['clientid'];
     if ($offer->id) {
     	//header('edit_sub_offers.php');
     	Echo "Subscription Offer Updated Sucessfully.";    	
-    	header('Location: edit_offers.php?id='. $clientid);
+    	header('Location: list_offers.php?id='. $clientid);
     	    } else {
     	echo "ERROR.";
     }

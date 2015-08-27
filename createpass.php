@@ -1,4 +1,4 @@
-<?php
+'<?php
 
 include('connect.php');
 include('./inc/cleeng/cleeng_api.php');
@@ -22,15 +22,19 @@ include('./inc/cleeng/cleeng_api.php');
 
     $offerSetup = array(
     'title' => 'Bip Bip and Coyote - Season 4 ALL EPISODES',
+    'associateEmail' => 'testschool@hs3.tv',
     'price' => 0.49,
     'url' => 'http://your-site.com/watch/bipbip_4/',
     'description' => 'See how Bip Bip and Coyote are chasing each other. One purchase all episodes!',
-    'offerIdList' => array('A323985960_US', 'A358550286_US')
+    'period' => 'year',
+    'accessToTags' => array('football')
+
     );
 
     $cleengApi = new Cleeng_Api();
-    $cleengApi->setPublisherToken('LKL4ZSQhJHNnGLizJAioriOWwV0gbZaSaOKdB28uUVAuhiwj');
+    $cleengApi->enableSandbox();
+    $cleengApi->setPublisherToken('RrqDJhkbxJA9g9W7QQ2SW3BJLdALJgxPBlf9pj5W8NIPJ_Fh');
 
-    $cleengApi->createBundleOffer($offerSetup);
+    $cleengApi->createPassOffer($offerSetup);
 
     ?>

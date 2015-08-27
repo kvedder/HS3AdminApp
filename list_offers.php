@@ -30,7 +30,7 @@ $offerOptions = array(
 	'associateEmail' => $config['cleeng_email'],
 	'active' => 1,
 	);
-$offerList = $cleengApi->listSubscriptionOffers($offerOptions, 0, 5);
+$offerList = $cleengApi->listPassOffers($offerOptions, 0, 5);
 $totalOffers = $offerList->totalItemCount;
 echo 'There are ' . $totalOffers . ' total offers.<br><br>';
 
@@ -57,7 +57,7 @@ for ($i=0; $i < $totalRuns; $i++) {
 	'active' => 1,
 
 	);
-$offerList = $cleengApi->listSubscriptionOffers($offerOptions, $startCount, 50);
+$offerList = $cleengApi->listPassOffers($offerOptions, $startCount, 50);
 
 		foreach ($offerList->items as $offer) {
 			$masterOfferList[] = $offer;
@@ -100,7 +100,7 @@ $offerOptions = array(
 	'associateEmail' => $config['cleeng_email'],
 	'active' => 1,
 	);
-$offerList = $cleengApi->listSubscriptionOffers($offerOptions, 0, 50);
+$offerList = $cleengApi->listPassOffers($offerOptions, 0, 50);
 $totalOffers = $offerList->totalItemCount;
 echo 'There are ' . $totalOffers . ' total offers.<br><br>';
 ?>
@@ -216,7 +216,7 @@ foreach ($masterOfferList as $offer) { ?>
 			}?>
 			</div>
 			<div class="table-cell" style="width:4%;">
-			<a href="edit_sub_offer.php?id=<?php echo $id; ?>&offer=<?php echo $offer->id;?>">Edit Offer</a>
+			<a href="edit_offer.php?id=<?php echo $id; ?>&offer=<?php echo $offer->id;?>">Edit Offer</a>
 			</div>
 			
 		</div>
@@ -293,9 +293,9 @@ $offerSetup = array(
 	$cleengApi->setPublisherToken(cleeng_token);
 	}
 
-    $offer = $cleengApi->createSubscriptionOffer($offerSetup);
+    $offer = $cleengApi->createPassOffer($offerSetup);
     if ($offer->id) {
-    	Echo "S Offer Created Sucessfully.";
+    	Echo "Pass Offer Created Sucessfully.";
     } else {
     	echo "ERROR.";
     }

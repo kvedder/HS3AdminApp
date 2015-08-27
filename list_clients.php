@@ -119,7 +119,7 @@ while ($row = mysqli_fetch_array($r, MYSQLI_ASSOC)) {
 		<td align="left"><a href="client_summary.php?id=' . $row['clientid'] . '">' . $row['client_name'] . '</a></td>
 		<td align="left">' . $row['client_city'] . '</td>
 		<td align="left">' . $row['client_state'] . '</td>
-		<td align="left"><a href="edit_sub_offers.php?id=' . $row['clientid'] . '">Edit Subscription Offers</a></td>
+		<td align="left"><a href="list_offers.php?id=' . $row['clientid'] . '">Edit Static Offers</a></td>
 	</tr>
 	';
 } // End of WHILE loop.

@@ -33,7 +33,7 @@ $cleengApi = new Cleeng_Api();
 	$cleengApi->setPublisherToken(cleeng_token);
 	}
 
-    $offer = $cleengApi->getSubscriptionOffer($offerid);
+    $offer = $cleengApi->getPassOffer($offerid);
     if ($offer->id) {
     	Echo "Subscription Offer Retrieved Sucessfully.";
     	echo $config['clientid'];
@@ -67,7 +67,7 @@ $(document).ready(function () {
 
 <h2>Create New Subscription Offer:</h2>
 
-<form action="update_sub_offer.php" method="post">
+<form action="update_offer.php" method="post">
 <input type="hidden" name="clientid" value="<?php echo $id; ?>" />
 <p>Offer ID: <input type="hidden" name="offerid" value="<?php echo $offerid; ?>" /><?php echo $offerid; ?></p>
 <p>Offer Title: <input type="text" name="title" size="60" maxlength="60" value="<?php echo $offer->title; ?>" /></p>

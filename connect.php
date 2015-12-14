@@ -1,7 +1,7 @@
 <?php
 
 //turn cleeng sandbox on and off
-define('cleeng_sandbox', '1');
+define('cleeng_sandbox', '0');
 
 DEFINE ('dbuser', 'wtlw');
 DEFINE ('dbpassword', 'KirkSpock44#1');
